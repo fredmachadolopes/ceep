@@ -10,13 +10,22 @@ class App extends Component {
     this.state = {
       notas: [],
     };
+
     this.arquivoLocal = JSON.parse(localStorage.getItem("notas"));
     if (isNaN(this.arquivoLocal)) {
       this.arquivoLocal.forEach((element) => {
-        let temporario = { "titulo": element.titulo, "texto": element.texto };
+        let temporario = { titulo: element.titulo, texto: element.texto };
         this.state.notas.push(temporario);
       });
     }
+  }
+
+  deletarNota(index) {
+  
+    this.state.notas.splice(index, 1)
+    this.setState(this.state.notas);
+    localStorage.setItem("notas", JSON.stringify(this.state.notas));
+
   }
   handleMudanca(titulo, texto) {
     const novaNota = { titulo, texto };
@@ -28,7 +37,10 @@ class App extends Component {
     return (
       <section className="conteudo">
         <FormCadastro handleMudanca={this.handleMudanca.bind(this)} />
-        <ListaDeNotas notas={this.state.notas} />
+        <ListaDeNotas
+          deletarNota={this.deletarNota.bind(this)}
+          notas={this.state.notas}
+        />
       </section>
     );
   }

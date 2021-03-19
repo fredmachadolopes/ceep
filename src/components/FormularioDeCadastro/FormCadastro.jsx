@@ -2,8 +2,8 @@ import { Component } from "react";
 import "./estilo.css";
 
 class FormCadastro extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this._titulo = "";
     this._notas = "";
   }
