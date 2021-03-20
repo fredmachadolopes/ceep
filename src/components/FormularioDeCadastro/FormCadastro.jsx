@@ -6,6 +6,10 @@ class FormCadastro extends Component {
     super();
     this._titulo = "";
     this._notas = "";
+    this._categoria = "";
+  }
+  _selecionado(event) {
+    this._categoria = event.target.value;
   }
   pegarTitulo(event) {
     this._titulo = event.target;
@@ -16,17 +20,33 @@ class FormCadastro extends Component {
   handleMudanca(event) {
     event.preventDefault();
     event.stopPropagation();
-    if (isNaN(this._notas && this._titulo)) {
-      this.props.handleMudanca(this._titulo.value, this._notas.value)
-      this._notas.value = ""; 
+    if (isNaN(this._notas && this._titulo && this._categoria)) {
+      this.props.handleMudanca(
+        this._titulo.value,
+        this._notas.value,
+        this._categoria
+      );
+      this._notas.value = "";
       this._titulo.value = "";
-      this._notas ="";
+      this._notas = "";
       this._titulo = "";
     }
   }
   render() {
     return (
       <form className="form-cadastro" onSubmit={this.handleMudanca.bind(this)}>
+        <select
+          className="form-cadastro_input"
+          onBlur={this._selecionado.bind(this)}
+        >
+          {this.props.categorias.map((categoria, index) => {
+            return (
+              <option key={index} value={categoria.categoria}>
+                {categoria.categoria}{" "}
+              </option>
+            );
+          })}
+        </select>
         <input
           type="text"
           placeholder="Título"
